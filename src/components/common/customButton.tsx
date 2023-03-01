@@ -8,10 +8,12 @@ function CustomButton({
   color,
   fullWidth,
   icon,
+  disabled,
   handleClick,
 }: CustomButtonProps) {
   return (
     <Button
+      disabled={disabled}
       type={type === "submit" ? "submit" : "button"}
       onClick={handleClick}
       sx={{
