@@ -10,10 +10,11 @@ import {
   MenuItem,
   Button,
 } from "@pankod/refine-mui";
+
 import { FormProps } from "interfaces/common";
 import CustomButton from "./customButton";
 
-function Form({
+const Form = ({
   type,
   register,
   handleSubmit,
@@ -21,12 +22,13 @@ function Form({
   formLoading,
   onFinishHandler,
   propertyImage,
-}: FormProps) {
+}: FormProps) => {
   return (
     <Box>
       <Typography fontSize={25} fontWeight={700} color="#11142d">
         {type} a Property
       </Typography>
+
       <Box mt={2.5} borderRadius="15px" padding="20px" bgcolor="#fcfcfc">
         <form
           style={{
@@ -52,7 +54,7 @@ function Form({
             <TextField
               fullWidth
               required
-              id="outline-basic"
+              id="outlined-basic"
               color="info"
               variant="outlined"
               {...register("title", { required: true })}
@@ -86,6 +88,7 @@ function Form({
               {...register("description", { required: true })}
             />
           </FormControl>
+
           <Stack direction="row" gap={4}>
             <FormControl sx={{ flex: 1 }}>
               <FormHelperText
@@ -103,15 +106,17 @@ function Form({
                 color="info"
                 displayEmpty
                 required
-                inputProps={{ "area-label": "Without label" }}
+                inputProps={{ "aria-label": "Without label" }}
                 defaultValue="apartment"
-                {...register("propertyType", { required: true })}
+                {...register("propertyType", {
+                  required: true,
+                })}
               >
                 <MenuItem value="apartment">Apartment</MenuItem>
                 <MenuItem value="villa">Villa</MenuItem>
-                <MenuItem value="farmhouse">Farmhouse</MenuItem>
-                <MenuItem value="condo">Condo</MenuItem>
-                <MenuItem value="yownhouse">Townhouse</MenuItem>
+                <MenuItem value="farmhouse">farmhouse</MenuItem>
+                <MenuItem value="condos">Condos</MenuItem>
+                <MenuItem value="townhouse">Townhouse</MenuItem>
                 <MenuItem value="duplex">Duplex</MenuItem>
                 <MenuItem value="studio">Studio</MenuItem>
                 <MenuItem value="chalet">Chalet</MenuItem>
@@ -131,7 +136,7 @@ function Form({
               <TextField
                 fullWidth
                 required
-                id="outline-basic"
+                id="outlined-basic"
                 color="info"
                 variant="outlined"
                 type="number"
@@ -153,7 +158,7 @@ function Form({
             <TextField
               fullWidth
               required
-              id="outline-basic"
+              id="outlined-basic"
               color="info"
               variant="outlined"
               {...register("location", { required: true })}
@@ -167,12 +172,12 @@ function Form({
                 fontSize={16}
                 my="10px"
               >
-                Property photo
+                Property Photo
               </Typography>
               <Button
                 component="label"
                 sx={{
-                  width: "fit-conent",
+                  width: "fit-content",
                   color: "#2ed480",
                   textTransform: "capitalize",
                   fontSize: 16,
@@ -183,9 +188,9 @@ function Form({
                   hidden
                   accept="image/*"
                   type="file"
-                  onChange={(
-                    e //@ts-ignore
-                  ) => handleImageChange(e.target.files[0])}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    handleImageChange(e.target.files![0]);
+                  }}
                 />
               </Button>
             </Stack>
@@ -207,6 +212,6 @@ function Form({
       </Box>
     </Box>
   );
-}
+};
 
 export default Form;

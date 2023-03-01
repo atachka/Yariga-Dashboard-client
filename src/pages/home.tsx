@@ -1,12 +1,5 @@
-import { useList } from "@pankod/refine-core";
 import { Box, Typography, Stack } from "@pankod/refine-mui";
-import {
-  PieChart,
-  PropertyReferrals,
-  TotalRevenue,
-  PropertyCard,
-  TopAgent,
-} from "components";
+import { PieChart, PropertyReferrals, TotalRevenue } from "components";
 
 const Home = () => {
   return (

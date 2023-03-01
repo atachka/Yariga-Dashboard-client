@@ -8,25 +8,27 @@ import {
   CardContent,
   Stack,
 } from "@pankod/refine-mui";
+
 import { PropertyCardProps } from "interfaces/property";
 
-function PropertyCard({
+const PropertyCard = ({
   id,
   title,
   location,
   price,
   photo,
-}: PropertyCardProps) {
+}: PropertyCardProps) => {
   return (
     <Card
       component={Link}
-      to={`/properties/${id}`}
+      to={`/properties/show/${id}`}
       sx={{
         maxWidth: "330px",
         padding: "10px",
-        "&:hover": { boxShadow: "0 22px 45px 2px rgba(176,176,176 ,0.1)" },
+        "&:hover": {
+          boxShadow: "0 22px 45px 2px rgba(176, 176, 176, 0.1)",
+        },
         cursor: "pointer",
-        textDecoration: "none",
       }}
       elevation={0}
     >
@@ -52,7 +54,13 @@ function PropertyCard({
             {title}
           </Typography>
           <Stack direction="row" gap={0.5} alignItems="flex-start">
-            <Place sx={{ fontSize: 18, color: "#11142d", marginTop: 0.5 }} />
+            <Place
+              sx={{
+                fontSize: 18,
+                color: "#11142d",
+                marginTop: 0.5,
+              }}
+            />
             <Typography fontSize={14} color="#808191">
               {location}
             </Typography>
@@ -72,6 +80,6 @@ function PropertyCard({
       </CardContent>
     </Card>
   );
-}
+};
 
 export default PropertyCard;
