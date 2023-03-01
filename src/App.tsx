@@ -11,13 +11,10 @@ import {
 } from "@pankod/refine-mui";
 import {
   AccountCircleOutlined,
-  ChatBubbleOutline,
   PeopleAltOutlined,
-  StarOutlineRounded,
   VillaOutlined,
 } from "@mui/icons-material";
 import dataProvider from "@pankod/refine-simple-rest";
-import { MuiInferencer } from "@pankod/refine-inferencer/mui";
 import routerProvider from "@pankod/refine-react-router-v6";
 import axios, { AxiosRequestConfig } from "axios";
 import { ColorModeContextProvider } from "contexts";
@@ -52,19 +49,35 @@ axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
 
 function App() {
   const authProvider: AuthProvider = {
-    login: ({ credential }: CredentialResponse) => {
+    login: async ({ credential }: CredentialResponse) => {
       const profileObj = credential ? parseJwt(credential) : null;
 
       if (profileObj) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            ...profileObj,
+        const response = await fetch("http://localhost:8080/api/v1/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: profileObj.name,
+            email: profileObj.email,
             avatar: profileObj.picture,
-          })
-        );
-      }
+          }),
+        });
 
+        const data = await response.json();
+
+        if (response.status === 200) {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              ...profileObj,
+              avatar: profileObj.picture,
+              userid: data._id,
+            })
+          );
+        } else {
+          return Promise.reject();
+        }
+      }
       localStorage.setItem("token", `${credential}`);
 
       return Promise.resolve();
@@ -108,13 +121,13 @@ function App() {
       <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
       <RefineSnackbarProvider>
         <Refine
-          dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+          dataProvider={dataProvider("http://localhost:8080/api/v1")}
           notificationProvider={notificationProvider}
           ReadyPage={ReadyPage}
           catchAll={<ErrorComponent />}
           resources={[
             {
-              name: "property",
+              name: "properties",
               list: AllProperties,
               show: PropertyDetails,
               create: CreateProperty,
@@ -124,22 +137,13 @@ function App() {
             {
               name: "agent",
               list: Agents,
+              show: AgentProfile,
               icon: <PeopleAltOutlined />,
-            },
-            {
-              name: "review",
-              list: MuiInferencer,
-              icon: <StarOutlineRounded />,
-            },
-            {
-              name: "message",
-              list: MuiInferencer,
-              icon: <ChatBubbleOutline />,
             },
             {
               name: "my-profile",
               options: { label: "My Profile" },
-              list: MuiInferencer,
+              list: MyProfile,
               icon: <AccountCircleOutlined />,
             },
           ]}
