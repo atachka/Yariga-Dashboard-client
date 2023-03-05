@@ -135,7 +135,7 @@ function App() {
               icon: <VillaOutlined />,
             },
             {
-              name: "agent",
+              name: "agents",
               list: Agents,
               show: AgentProfile,
               icon: <PeopleAltOutlined />,

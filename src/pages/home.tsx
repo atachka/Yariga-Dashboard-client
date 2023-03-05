@@ -1,7 +1,27 @@
 import { Box, Typography, Stack } from "@pankod/refine-mui";
-import { PieChart, PropertyReferrals, TotalRevenue } from "components";
+import { useList } from "@pankod/refine-core";
+import {
+  PieChart,
+  PropertyReferrals,
+  TotalRevenue,
+  PropertyCard,
+} from "components";
 
 const Home = () => {
+  const { data, isLoading, isError } = useList({
+    resource: "properties",
+    config: {
+      pagination: {
+        pageSize: 4,
+      },
+    },
+  });
+
+  const latestProperties = data?.data ?? [];
+
+  if (isLoading) return <Typography>Loading...</Typography>;
+  if (isError) return <Typography>Something went wrong!</Typography>;
+
   return (
     <Box>
       <Typography fontSize={25} fontWeight={700} color="#11142D">
@@ -42,6 +62,18 @@ const Home = () => {
         <TotalRevenue />
         <PropertyReferrals />
       </Stack>
+      <Box mt={2.5} sx={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+        {latestProperties.map((property) => (
+          <PropertyCard
+            key={property._id}
+            id={property._id}
+            title={property.title}
+            location={property.location}
+            price={property.price}
+            photo={property.photo}
+          />
+        ))}
+      </Box>
     </Box>
   );
 };

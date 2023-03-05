@@ -64,7 +64,6 @@ const PropertyDetails = () => {
       bgcolor="#FCFCFC"
       width="fit-content"
       margin="0 auto"
-      display="flex"
     >
       <Typography fontSize={25} fontWeight={700} color="#11142D">
         Details
@@ -76,12 +75,24 @@ const PropertyDetails = () => {
         flexDirection={{ xs: "column", lg: "row" }}
         gap={4}
       >
-        <Box flex={1} maxWidth={764}>
+        <Box
+          flex={1}
+          maxWidth={400}
+          sx={{
+            display: { xs: "flex" },
+            flexDirection: "column",
+            alignItems: { lg: "flex-start", sm: "center", xs: "center" },
+          }}
+        >
           <img
             src={propertyDetails.photo}
+            width="100%"
             alt="property_details-img"
-            height={346}
-            style={{ objectFit: "cover", borderRadius: "10px" }}
+            style={{
+              objectFit: "cover",
+              borderRadius: "10px",
+              maxWidth: "400px",
+            }}
             className="property_details-img"
           />
 
